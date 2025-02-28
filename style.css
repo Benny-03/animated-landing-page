@@ -1,0 +1,93 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: rgb(33, 176, 254);
+    font-family: 'Wix Madefor Display';
+}
+
+/* background-color: rgb(150, 30, 236); */
+
+.wrapper {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.sct {
+    height: 100vh;
+    color: #004d77;
+}
+
+.sct > * {
+    margin: 0;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 14.5vw;
+    position: relative;
+}
+
+h2 {
+    font-size: 10vw;
+    margin: 0;
+}
+
+p {
+    font-size: 4vw;
+    line-height: 63px;
+    letter-spacing: -3px;
+}
+
+.section1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.section2 {
+    padding-top: 13vw;
+}
+
+.section2 h2 {
+    transform: translateY(80px);
+    transition: transform 1s;
+}
+
+/* .section2 .visible{
+    transform: translateY(0);
+    transition: transform 1s;
+}  */
+
+.section2 p {
+    opacity: 0.3;
+}
+
+
+
+/* keyframes */
+
+@keyframes top-down {
+    0% {
+        opacity: 0;
+        transform: translateY(300px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bottom-up {
+    0% {
+        opacity: 0;
+        transform: translateY(-300px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

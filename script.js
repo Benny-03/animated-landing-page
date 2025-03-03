@@ -23,12 +23,7 @@ titleSplitter(document.getElementById('spazio-genio'), (span, index) => {
     }
 })
 
-textSplitter(document.querySelector('.section2 p'), (span, index) => {
-    
-})
-
 const azienda = document.querySelector('.section2 h2');
-
 window.addEventListener("scroll", () => {
     var wTop = window.pageYOffset;
     var wBottom = (window.pageYOffset + window.innerHeight);
@@ -43,3 +38,70 @@ window.addEventListener("scroll", () => {
         azienda.style.transition = 'transform 1s';
     }
 });
+
+const textSplitter = (element) => {
+    const text = element.textContent;
+    const phrases = text.split(' ');
+    element.textContent = '';
+
+    for (const phrase of phrases) {
+        const span = document.createElement('span');
+        span.textContent = phrase + '\u00A0';
+        span.classList.add('phrase')
+        Object.assign(span.style, {
+            display: 'inline-block'
+        });
+        element.appendChild(span);
+    }
+}
+
+textSplitter(document.getElementById('text-section2'))
+
+
+const bodyAnimation = anime({
+    targets: 'body',
+    autoplay: false,
+    easing: "easeInOutCubic",
+    backgroundColor: ['rgb(33, 176, 254)', 'rgb(16, 212, 186)', 'rgb(22, 199, 75)', 'rgb(216, 247, 77)']
+})
+
+const textAnimation = anime({
+    targets: '#text-section2 .phrase',
+    opacity: [0, 1],
+    elasticity: 200,
+    easing: "easeInOutCubic",
+    autoplay: false,
+    delay: (el, i) => 300 * (i + 1)
+});
+
+const imgAnimation = anime({
+    targets: '.line img',
+    opacity: 1,
+    translateX: [0, 500],
+    elasticity: 200,
+    easing: 'easeInOutCubic',
+});
+
+const imgAnimation1 = anime({
+    targets: '.line-reverse img',
+    opacity: 1,
+    translateX: [500, 0],
+    elasticity: 200,
+    easing: 'easeInOutCubic',
+});
+
+const scrollPercent = () => {
+    const bodyST = document.body.scrollTop;
+    const docST = document.documentElement.scrollTop;
+    const docSH = document.documentElement.scrollHeight;
+    const docCH = document.documentElement.clientHeight;
+    console.log((docST + bodyST) / (docSH - docCH) * 100)
+    return (docST + bodyST) / (docSH - docCH) * 100
+}
+
+window.onscroll = () => {
+    textAnimation.seek((scrollPercent() / 100) * textAnimation.duration * 2);
+    imgAnimation.seek((scrollPercent() / 100) * imgAnimation.duration)
+    imgAnimation1.seek((scrollPercent() / 100) * imgAnimation1.duration)
+    bodyAnimation.seek((scrollPercent() / 100) * bodyAnimation.duration)
+};

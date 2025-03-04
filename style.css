@@ -1,4 +1,7 @@
-html, body {
+/* GENERAL */
+
+html,
+body {
     padding: 0;
     margin: 0;
     width: 100%;
@@ -17,7 +20,7 @@ html, body {
     color: #004d77;
 }
 
-.sct > * {
+.sct>* {
     margin: 0;
 }
 
@@ -38,12 +41,16 @@ p {
     letter-spacing: -3px;
 }
 
+/* SECTION 1 */
+
 .section1 {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
 }
+
+/* SECTION 2 */
 
 .section2 {
     padding-top: 13vw;
@@ -54,8 +61,10 @@ p {
     transition: transform 1s;
 }
 
+/* SECTION 3 */
+
 .section3 {
-    height: 300vh;
+    height: 1600px;
 }
 
 .section3 .line {
@@ -64,22 +73,35 @@ p {
     overflow: hidden;
 }
 
+/* SECTION 4 */
+
 .section4 {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+}
+
+.section4 .container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.section4 .stage_animation {
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    padding-bottom: 10px;
+    animation: stage_animation 5s linear infinite;
 }
 
 .section4 h2 {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
     letter-spacing: 7px;
-    justify-content: flex-end;
+    height: 100%;
+    display: inline-block;
 }
 
-.section4 .word2, .section4 .word1 {
+.section4 .word2,
+.section4 .word1 {
     border: solid 2px #004d77;
     background-color: transparent;
     font-size: 8vw;
@@ -89,15 +111,17 @@ p {
 .section4 .word1 {
     background-color: #004d77;
     color: white;
+    margin-right: 3px;
 }
 
-/* keyframes */
+/* KEYFRAMES */
 
 @keyframes top-down {
     0% {
         opacity: 0;
         transform: translateY(300px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -109,8 +133,19 @@ p {
         opacity: 0;
         transform: translateY(-300px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes stage_animation {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-50%, 0, 0);
     }
 }

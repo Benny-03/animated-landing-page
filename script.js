@@ -1,3 +1,5 @@
+// SECTION 1
+
 const titleSplitter = (element, cb) => {
     const text = element.textContent;
     const phrases = text.split(' ');
@@ -23,6 +25,8 @@ titleSplitter(document.getElementById('spazio-genio'), (span, index) => {
     }
 })
 
+// SECTION 2
+
 const azienda = document.querySelector('.section2 h2');
 window.addEventListener("scroll", () => {
     var wTop = window.pageYOffset;
@@ -41,6 +45,8 @@ window.addEventListener("scroll", () => {
 
 const textSplitter = (element) => {
     const text = element.textContent;
+    const lines = text.split('\n');
+    console.log(lines)
     const phrases = text.split(' ');
     element.textContent = '';
 
@@ -57,14 +63,6 @@ const textSplitter = (element) => {
 
 textSplitter(document.getElementById('text-section2'))
 
-
-const bodyAnimation = anime({
-    targets: 'body',
-    autoplay: false,
-    easing: "easeInOutCubic",
-    backgroundColor: ['rgb(33, 176, 254)', 'rgb(16, 212, 186)', 'rgb(22, 199, 75)', 'rgb(216, 247, 77)']
-})
-
 const textAnimation = anime({
     targets: '#text-section2 .phrase',
     opacity: [0, 1],
@@ -74,34 +72,45 @@ const textAnimation = anime({
     delay: (el, i) => 300 * (i + 1)
 });
 
+//SECTION 3
+
 const imgAnimation = anime({
     targets: '.line img',
     opacity: 1,
-    translateX: [0, 500],
-    elasticity: 200,
+    translateX: [0, 700],
+    elasticity: 300,
     easing: 'easeInOutCubic',
 });
 
-const imgAnimation1 = anime({
+const imgAnimationReverse = anime({
     targets: '.line-reverse img',
     opacity: 1,
-    translateX: [500, 0],
-    elasticity: 200,
+    translateX: [700, 0],
+    elasticity: 300,
     easing: 'easeInOutCubic',
 });
+
+// GENERAL
+
+const bodyAnimation = anime({
+    targets: 'body',
+    autoplay: false,
+    easing: "easeInOutCubic",
+    backgroundColor: ['rgb(33, 176, 254)', 'rgb(16, 212, 186)', 'rgb(22, 199, 75)', 'rgb(216, 247, 77)']
+})
 
 const scrollPercent = () => {
     const bodyST = document.body.scrollTop;
     const docST = document.documentElement.scrollTop;
     const docSH = document.documentElement.scrollHeight;
     const docCH = document.documentElement.clientHeight;
-    console.log((docST + bodyST) / (docSH - docCH) * 100)
-    return (docST + bodyST) / (docSH - docCH) * 100
+
+    return (docST + bodyST) / (docSH - docCH)
 }
 
 window.onscroll = () => {
-    textAnimation.seek((scrollPercent() / 100) * textAnimation.duration * 2);
-    imgAnimation.seek((scrollPercent() / 100) * imgAnimation.duration)
-    imgAnimation1.seek((scrollPercent() / 100) * imgAnimation1.duration)
-    bodyAnimation.seek((scrollPercent() / 100) * bodyAnimation.duration)
+    textAnimation.seek(scrollPercent() * textAnimation.duration * 3.3);
+    imgAnimation.seek(scrollPercent() * imgAnimation.duration)
+    imgAnimationReverse.seek(scrollPercent() * imgAnimationReverse.duration)
+    bodyAnimation.seek(scrollPercent() * bodyAnimation.duration)
 };

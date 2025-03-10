@@ -46,13 +46,11 @@ window.addEventListener("scroll", () => {
 const textSplitter = (element) => {
     const text = element.textContent;
     const lines = text.split('\n');
-    console.log(lines)
-    const phrases = text.split(' ');
     element.textContent = '';
 
-    for (const phrase of phrases) {
+    for (const line of lines) {
         const span = document.createElement('span');
-        span.textContent = phrase + '\u00A0';
+        span.textContent = line;
         span.classList.add('phrase')
         Object.assign(span.style, {
             display: 'inline-block'
@@ -90,6 +88,61 @@ const imgAnimationReverse = anime({
     easing: 'easeInOutCubic',
 });
 
+// SECTION 5 -> mini tween library
+
+const lerp = (min, max, fraction) => (max - min) * fraction + min;
+const easeInOutExpo = x => x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2;
+
+const tween = ({ from, to, time, onUpdate, ease }) => new Promise((resolve, reject) => {
+    let start, previousTimeStamp;
+    const step = (timestamp) => {
+        if (start === undefined) start = timestamp;
+        const elapsed = timestamp - start;
+        onUpdate(lerp(from, to, ease(elapsed / time)));
+        if (elapsed < time) {
+            previousTimeStamp = timestamp;
+            window.requestAnimationFrame(step);
+        } else {
+            resolve()
+        }
+    }
+    window.requestAnimationFrame(step)
+})
+
+const clienti = document.querySelector('.section5 .number1')
+const soddisfatti = document.querySelector('.section5 .number2')
+const realizzazioni = document.querySelector('.section5 .number3')
+
+document.addEventListener('click', e => {
+    tween({
+        from: 0,
+        to: 200,
+        time: 4000,
+        onUpdate(val) {
+            clienti.innerText = Math.round(val)
+        },
+        ease: easeInOutExpo
+    })
+    tween({
+        from: 0,
+        to: 100,
+        time: 4000,
+        onUpdate(val) {
+            soddisfatti.innerText = Math.round(val)
+        },
+        ease: easeInOutExpo
+    })
+    tween({
+        from: 0,
+        to: 1000,
+        time: 4000,
+        onUpdate(val) {
+            realizzazioni.innerText = Math.round(val)
+        },
+        ease: easeInOutExpo
+    })
+})
+
 // GENERAL
 
 const bodyAnimation = anime({
@@ -109,7 +162,7 @@ const scrollPercent = () => {
 }
 
 window.onscroll = () => {
-    textAnimation.seek(scrollPercent() * textAnimation.duration * 3.3);
+    textAnimation.seek(scrollPercent() * textAnimation.duration * 2.5);
     imgAnimation.seek(scrollPercent() * imgAnimation.duration)
     imgAnimationReverse.seek(scrollPercent() * imgAnimationReverse.duration)
     bodyAnimation.seek(scrollPercent() * bodyAnimation.duration)

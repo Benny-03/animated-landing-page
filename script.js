@@ -72,23 +72,55 @@ const textAnimation = anime({
 
 //SECTION 3
 
-const imgAnimation = anime({
+let imgAnimation = '';
+let imgAnimationReverse = '';
+let start = 0;
+let finish = 0;
+
+if(window.innerWidth > 1200) {
+    start = -100;
+    finish = 824;
+}else if(window.innerWidth > 1024) {
+    start = -100;
+    finish = 500;
+} else if (window.innerWidth > 800){
+    start = 0;
+    finish = 400;
+} else if (window.innerWidth > 768){
+    start = -100;
+    finish = 400;
+}else {
+    start = -100;
+    finish = 400;
+}
+
+if(window.innerWidth <= 500){
+    start = 0;
+    finish = 300;
+}
+
+if(window.innerWidth <= 400){
+    start = -0;
+    finish = 160;
+}
+
+imgAnimation = anime({
     targets: '.line img',
     opacity: 1,
-    translateX: [0, 700],
+    translateX: [start, finish],
     elasticity: 300,
     easing: 'easeInOutCubic',
 });
 
-const imgAnimationReverse = anime({
+imgAnimationReverse = anime({
     targets: '.line-reverse img',
     opacity: 1,
-    translateX: [700, 0],
+    translateX: [finish, start],
     elasticity: 300,
     easing: 'easeInOutCubic',
 });
 
-// SECTION 5 -> mini tween library
+// SECTION 5 -> mini tween library + IntersectionObserver
 
 const lerp = (min, max, fraction) => (max - min) * fraction + min;
 const easeInOutExpo = x => x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2;
@@ -113,7 +145,7 @@ const clienti = document.querySelector('.section5 .number1')
 const soddisfatti = document.querySelector('.section5 .number2')
 const realizzazioni = document.querySelector('.section5 .number3')
 
-document.addEventListener('click', e => {
+const startAnimations = () => {
     tween({
         from: 0,
         to: 200,
@@ -141,7 +173,18 @@ document.addEventListener('click', e => {
         },
         ease: easeInOutExpo
     })
-})
+}
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            startAnimations();
+        }
+    });
+}, { threshold: 0.5 });
+
+const section5 = document.querySelector('.section5');
+observer.observe(section5);
 
 // GENERAL
 
@@ -162,7 +205,12 @@ const scrollPercent = () => {
 }
 
 window.onscroll = () => {
-    textAnimation.seek(scrollPercent() * textAnimation.duration * 2.5);
+    if(window.innerWidth > 768 ){
+        textAnimation.seek(scrollPercent() * textAnimation.duration * 2.5);
+    } else {
+        textAnimation.seek(scrollPercent() * textAnimation.duration * 4);
+    }
+    
     imgAnimation.seek(scrollPercent() * imgAnimation.duration)
     imgAnimationReverse.seek(scrollPercent() * imgAnimationReverse.duration)
     bodyAnimation.seek(scrollPercent() * bodyAnimation.duration)
